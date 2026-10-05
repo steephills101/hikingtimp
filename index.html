@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mt. Timpanogos | Hiking Guide</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f4f7f3;
+      color: #24352b;
+      line-height: 1.6;
+    }
+
+    /* NAVIGATION */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      background: rgba(20, 42, 31, 0.95);
+      backdrop-filter: blur(8px);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 7%;
+    }
+
+    .logo {
+      color: white;
+      font-size: 1.3rem;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 25px;
+    }
+
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 0.95rem;
+    }
+
+    nav a:hover {
+      color: #b9dfbd;
+    }
+
+    /* HERO */
+    .hero {
+      min-height: 90vh;
+      padding: 130px 8% 80px;
+      display: flex;
+      align-items: center;
+      color: white;
+      background:
+        linear-gradient(rgba(10, 35, 22, 0.58), rgba(10, 35, 22, 0.72)),
+        url("https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=2000&q=85")
+        center/cover;
+    }
+
+    .hero-content {
+      max-width: 800px;
+    }
+
+    .tag {
+      display: inline-block;
+      background: #c9e6c9;
+      color: #173b27;
+      padding: 7px 14px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: bold;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      font-size: clamp(3rem, 8vw, 6rem);
+      line-height: 0.95;
+      margin-bottom: 25px;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      max-width: 650px;
+      margin-bottom: 30px;
+    }
+
+    .button {
+      display: inline-block;
+      padding: 13px 22px;
+      border-radius: 8px;
+      background: #d8efc9;
+      color: #173b27;
+      text-decoration: none;
+      font-weight: bold;
+      margin-right: 10px;
+      transition: 0.2s;
+    }
+
+    .button:hover {
+      transform: translateY(-2px);
+      background: white;
+    }
+
+    .button.dark {
+      background: transparent;
+      border: 2px solid white;
+      color: white;
+    }
+
+    /* GENERAL */
+    section {
+      padding: 80px 8%;
+    }
+
+    .section-title {
+      max-width: 750px;
+      margin-bottom: 40px;
+    }
+
+    .section-title h2 {
+      font-size: 2.5rem;
+      color: #173b27;
+      margin-bottom: 12px;
+    }
+
+    .section-title p {
+      color: #617066;
+    }
+
+    /* QUICK FACTS */
+    .facts {
+      background: white;
+    }
+
+    .fact-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+
+    .fact {
+      background: #edf4ed;
+      padding: 25px;
+      border-radius: 14px;
+      border: 1px solid #dbe8dc;
+    }
+
+    .fact span {
+      display: block;
+      font-size: 0.8rem;
+      color: #66776a;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 5px;
+    }
+
+    .fact strong {
+      font-size: 1.3rem;
+      color: #183c27;
+    }
+
+    /* ROUTES */
+    .route-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 25px;
+    }
+
+    .route-card {
+      background: white;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 8px 30px rgba(24, 60, 39, 0.08);
+    }
+
+    .route-card .route-image {
+      height: 210px;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .timpo {
+      background-image:
+        linear-gradient(rgba(0,0,0,.1),rgba(0,0,0,.1)),
+        url("https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=1000&q=80");
+    }
+
+    .route-info {
+      padding: 25px;
+    }
+
+    .route-info h3 {
+      font-size: 1.5rem;
+      color: #173b27;
+      margin-bottom: 10px;
+    }
+
+    .route-info p {
+      color: #657267;
+    }
+
+    .stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 18px 0;
+    }
+
+    .stats span {
+      background: #e9f2e8;
+      color: #285238;
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-size: 0.82rem;
+      font-weight: bold;
+    }
+
+    /* ALERT */
+    .alert {
+      background: #fff5dc;
+      border-left: 6px solid #e1a52e;
+      padding: 25px;
+      border-radius: 8px;
+      margin-top: 30px;
+    }
+
+    .alert h3 {
+      color: #805b12;
+      margin-bottom: 7px;
+    }
+
+    /* SAFETY */
+    .safety {
+      background: #173b27;
+      color: white;
+    }
+
+    .safety .section-title h2 {
+      color: white;
+    }
+
+    .safety .section-title p {
+      color: #cbd9cf;
+    }
+
+    .safety-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .safety-card {
+      background: #224d35;
+      padding: 25px;
+      border-radius: 12px;
+      border: 1px solid #356747;
+    }
+
+    .safety-card .icon {
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+
+    .safety-card h3 {
+      margin-bottom: 8px;
+    }
+
+    .safety-card p {
+      color: #d4e1d8;
+      font-size: 0.95rem;
+    }
+
+    /* GEAR */
+    .gear-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+
+    .gear-item {
+      background: white;
+      padding: 18px;
+      border-radius: 10px;
+      display: flex;
+      gap: 15px;
+      align-items: center;
+      border: 1px solid #e1e9e2;
+    }
+
+    .gear-item input {
+      width: 19px;
+      height: 19px;
+      accent-color: #2e6943;
+    }
+
+    /* SEASON */
+    .season-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .season-table th,
+    .season-table td {
+      padding: 17px;
+      text-align: left;
+      border-bottom: 1px solid #e3e9e4;
+    }
+
+    .season-table th {
+      background: #214b32;
+      color: white;
+    }
+
+    /* FOOTER */
+    footer {
+      background: #0e2418;
+      color: #aebfb2;
+      text-align: center;
+      padding: 40px 8%;
+    }
+
+    footer strong {
+      color: white;
+    }
+
+    /* MOBILE */
+    @media (max-width: 850px) {
+      nav ul {
+        display: none;
+      }
+
+      .fact-grid,
+      .route-grid,
+      .safety-grid,
+      .gear-grid {
+        grid-template-columns: 1fr;
+      }
+
+      h1 {
+        font-size: 3.5rem;
+      }
+
+      section {
+        padding: 60px 6%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav>
+    <div class="logo">MT. TIMPANOGOS</div>
+
+    <ul>
+      <li><a href="#overview">Overview</a></li>
+      <li><a href="#routes">Routes</a></li>
+      <li><a href="#safety">Safety</a></li>
+      <li><a href="#gear">Gear</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="hero-content">
+      <span class="tag">UTAH • WASATCH RANGE</span>
+
+      <h1>Mt. Timpanogos</h1>
+
+      <p>
+        A practical guide to planning one of Utah's most iconic
+        high-elevation mountain hikes.
+      </p>
+
+      <a href="#overview" class="button">Start Planning</a>
+      <a href="#safety" class="button dark">Safety First</a>
+    </div>
+  </header>
+
+  <!-- OVERVIEW -->
+  <section id="overview" class="facts">
+    <div class="section-title">
+      <h2>Know Before You Go</h2>
+      <p>
+        Mt. Timpanogos is a serious mountain hike. Conditions can change
+        rapidly with elevation, so plan for a long day and be prepared
+        for changing weather.
+      </p>
+    </div>
+
+    <div class="fact-grid">
+      <div class="fact">
+        <span>Summit Elevation</span>
+        <strong>11,749 ft</strong>
+      </div>
+
+      <div class="fact">
+        <span>Mountain Range</span>
+        <strong>Wasatch Range</strong>
+      </div>
+
+      <div class="fact">
+        <span>Location</span>
+        <strong>Utah County, Utah</strong>
+      </div>
+
+      <div class="fact">
+        <span>Difficulty</span>
+        <strong>Strenuous</strong>
+      </div>
+    </div>
+
+    <div class="alert">
+      <h3>⚠️ Important</h3>
+      <p>
+        Trail distances, access, snow conditions, parking rules, and
+        seasonal hazards can change. Check current conditions and official
+        land-management information before starting your hike.
+      </p>
+    </div>
+  </section>
+
+  <!-- ROUTES -->
+  <section id="routes">
+    <div class="section-title">
+      <h2>Popular Routes</h2>
+      <p>
+        Two commonly discussed approaches to Mt. Timpanogos are the
+        Timpooneke Trail and the Aspen Grove route.
+      </p>
+    </div>
+
+    <div class="route-grid">
+
+      <article class="route-card">
+        <div class="route-image timpo"></div>
+
+        <div class="route-info">
+          <h3>Timpooneke Trail</h3>
+
+          <div class="stats">
+            <span>Strenuous</span>
+            <span>High Elevation</span>
+            <span>Long Day</span>
+          </div>
+
+          <p>
+            A popular approach from the American Fork Canyon side.
+            The trail climbs through forest and alpine terrain before
+            reaching the upper mountain and summit area.
+          </p>
+        </div>
+      </article>
+
+      <article class="route-card">
+        <div
+          class="route-image"
+          style="
+            background-image:
+            url('https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1000&q=80');
+          "
+        ></div>
+
+        <div class="route-info">
+          <h3>Aspen Grove Route</h3>
+
+          <div class="stats">
+            <span>Strenuous</span>
+            <span>Steep</span>
+            <span>Alpine Terrain</span>
+          </div>
+
+          <p>
+            The Aspen Grove approach is another well-known way to reach
+            Mt. Timpanogos. Expect substantial elevation gain and
+            demanding terrain.
+          </p>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- SAFETY -->
+  <section id="safety" class="safety">
+
+    <div class="section-title">
+      <h2>Mountain Safety</h2>
+      <p>
+        Timpanogos is beautiful, but the elevation and exposed terrain
+        make preparation extremely important.
+      </p>
+    </div>
+
+    <div class="safety-grid">
+
+      <div class="safety-card">
+        <div class="icon">🌦️</div>
+        <h3>Watch the Weather</h3>
+        <p>
+          Mountain weather can change quickly. Check the forecast before
+          leaving and be prepared to turn around.
+        </p>
+      </div>
+
+      <div class="safety-card">
+        <div class="icon">⛰️</div>
+        <h3>Respect Elevation</h3>
+        <p>
+          The summit is nearly 12,000 feet above sea level. Pace yourself,
+          stay hydrated, and recognize symptoms of altitude problems.
+        </p>
+      </div>
+
+      <div class="safety-card">
+        <div class="icon">⚡</div>
+        <h3>Lightning</h3>
+        <p>
+          Avoid exposed ridges and summits during thunderstorms. Start
+          early enough to reduce afternoon storm exposure.
+        </p>
+      </div>
+
+      <div class="safety-card">
+        <div class="icon">❄️</div>
+        <h3>Snow & Ice</h3>
+        <p>
+          Snow can remain at high elevations well after lower trails
+          become dry. Conditions may require specialized equipment and
+          experience.
+        </p>
+      </div>
+
+      <div class="safety-card">
+        <div class="icon">🧭</div>
+        <h3>Navigation</h3>
+        <p>
+          Carry an offline map and know your route. Do not depend entirely
+          on cell service.
+        </p>
+      </div>
+
+      <div class="safety-card">
+        <div class="icon">🐐</div>
+        <h3>Wildlife</h3>
+        <p>
+          Keep your distance from wildlife and never feed animals.
+          Mountain goats and other wildlife are best observed from afar.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- GEAR -->
+  <section id="gear">
+
+    <div class="section-title">
+      <h2>Day-Hike Checklist</h2>
+      <p>
+        Use this checklist as a starting point. Your equipment should
+        change with the season and current trail conditions.
+      </p>
+    </div>
+
+    <div class="gear-grid">
+
+      <label class="gear-item">
+        <input type="checkbox">
+        <span>Plenty of water + electrolytes</span>
+      </label>
+
+      <label class="gear-item">
+        <input type="checkbox">
+        <span>Food and high-energy snacks</span>
+      </label>
+
+      <label class="gear-item">
+        <input type="checkbox">
+        <span>Offline map / navigation</span>
+      </label>
+
+      <label class="gear-item">
+        <input type="checkbox">
+        <span>First-aid kit</span>
+      </label>
+
+      <label class="gear-item">
+        <input type="checkbox">
+        <span>Sun protection & sunglasses</span>
+      </label>
+
+      <label class="gear-item">
+        <input type="checkbox">
+        <span>Layers for changing temperatures</span>
+      </label>
+
+      <label class="gear-item">
+        <input type="checkbox">
+        <span>Rain / wind protection</span>
+      </label>
+
+      <label class="gear-item">
+        <input type="checkbox">
+        <span>Headlamp + spare batteries</span>
+      </label>
+
+      <label class="gear-item">
+        <input type="checkbox">
+        <span>Emergency communication device</span>
+      </label>
+
+      <label class="gear-item">
+        <input type="checkbox">
+        <span>Season-appropriate traction equipment</span>
+      </label>
+
+    </div>
+  </section>
+
+  <!-- SEASONS -->
+  <section style="background:#e8f0e9;">
+
+    <div class="section-title">
+      <h2>Seasonal Considerations</h2>
+      <p>
+        Conditions on the mountain can be dramatically different from
+        conditions in nearby cities and valleys.
+      </p>
+    </div>
+
+    <table class="season-table">
+      <thead>
+        <tr>
+          <th>Season</th>
+          <th>What to Expect</th>
+          <th>Planning Consideration</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr>
+          <td><strong>Spring</strong></td>
+          <td>Snow can persist at high elevations.</td>
+          <td>Check snowpack and route conditions carefully.</td>
+        </tr>
+
+        <tr>
+          <td><strong>Summer</strong></td>
+          <td>Generally the main hiking season.</td>
+          <td>Start early and watch afternoon weather.</td>
+        </tr>
+
+        <tr>
+          <td><strong>Fall</strong></td>
+          <td>Cooler temperatures and shorter daylight.</td>
+          <td>Carry warm layers and plan your turnaround time.</td>
+        </tr>
+
+        <tr>
+          <td><strong>Winter</strong></td>
+          <td>Snow, ice, and avalanche hazards may exist.</td>
+          <td>Requires appropriate winter skills and equipment.</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </section>
+
+  <!-- LEAVE NO TRACE -->
+  <section>
+
+    <div class="section-title">
+      <h2>Protect the Mountain</h2>
+      <p>
+        Help keep Mt. Timpanogos wild and enjoyable for future hikers.
+      </p>
+    </div>
+
+    <div class="fact-grid">
+
+      <div class="fact">
+        <span>01</span>
+        <strong>Stay on designated trails</strong>
+      </div>
+
+      <div class="fact">
+        <span>02</span>
+        <strong>Pack out your trash</strong>
+      </div>
+
+      <div class="fact">
+        <span>03</span>
+        <strong>Respect wildlife</strong>
+      </div>
+
+      <div class="fact">
+        <span>04</span>
+        <strong>Leave plants and rocks</strong>
+      </div>
+
+    </div>
+
+  </section>
+
+  <footer>
+    <p>
+      <strong>Mt. Timpanogos Hiking Guide</strong>
+    </p>
+
+    <p>
+      Plan carefully • Respect the mountain • Know your limits
+    </p>
+
+    <br>
+
+    <small>
+      This website is an educational planning resource, not a substitute
+      for current official trail, weather, or emergency information.
+    </small>
+  </footer>
+
+</body>
+</html>
